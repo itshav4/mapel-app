@@ -12,7 +12,7 @@ Route::view('/mapel', 'mapel')
     ->name('mapel');
 
 Route::get('/dashboard', function () {
-    return redirect('/mapel');
+    return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
@@ -26,5 +26,12 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])
         ->name('profile.destroy');
 });
+
+Route::get('/jadwal', function () {
+    $days = ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat'];
+    $mapels = \App\Models\Mapel::all();
+    
+    return view('jadwal', compact('days', 'mapels'));
+})->middleware('auth')->name('jadwal');
 
 require __DIR__.'/auth.php';
